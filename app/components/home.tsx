@@ -173,7 +173,7 @@ function _Home() {
       >
         <div className={styles["sidebar-header"]}>
           <div className={styles["sidebar-title"]}>Leogun Chat</div>
-          <div className={styles["sidebar-sub-title"]}>
+          <div className={styles["sidebar-sub-title"] + ` ${styles.colorWarn}`}>
             你的私人秘书~
           </div>
           <div className={styles["sidebar-sub-title"]}>
