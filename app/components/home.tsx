@@ -169,7 +169,7 @@ function _Home() {
         <div className={styles["sidebar-header"]}>
           <div className={styles["sidebar-title"]}>ChatGPT Next</div>
           <div className={styles["sidebar-sub-title"]}>
-            Build your own AI assistant.
+            你的私人秘书~
           </div>
           <div className={styles["sidebar-logo"]}>
             <ChatGptIcon />
@@ -204,11 +204,11 @@ function _Home() {
                 shadow
               />
             </div>
-            <div className={styles["sidebar-action"]}>
-              <a href={REPO_URL} target="_blank">
-                <IconButton icon={<GithubIcon />} shadow />
-              </a>
-            </div>
+            {/*<div className={styles["sidebar-action"]}>*/}
+            {/*  <a href={REPO_URL} target="_blank">*/}
+            {/*    <IconButton icon={<GithubIcon />} shadow />*/}
+            {/*  </a>*/}
+            {/*</div>*/}
           </div>
           <div>
             <IconButton
