@@ -176,7 +176,7 @@ function _Home() {
           <div className={styles["sidebar-sub-title"]}>
             你的私人秘书~
           </div>
-          <div className={styles["sidebar-sub-title"]} style="coler: red">
+          <div className={styles["sidebar-sub-title"]}>
             {authorizedText}
           </div>
           <div className={styles["sidebar-logo"]}>
