@@ -16,7 +16,7 @@ import AddIcon from "../icons/add.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import CloseIcon from "../icons/close.svg";
 
-import { useChatStore } from "../store";
+import {useAccessStore, useChatStore} from "../store";
 import { getCSSVar, isMobileScreen } from "../utils";
 import Locale from "../locales";
 import { Chat } from "./chat";
@@ -145,6 +145,11 @@ function _Home() {
   // setting
   const [openSettings, setOpenSettings] = useState(false);
   const config = useChatStore((state) => state.config);
+  const accessStore = useAccessStore();
+  let authorizedText = '';
+  if (!accessStore.isAuthorized()) {
+    authorizedText = Locale.Error.Unauthorized;
+  }
 
   // drag side bar
   const { onDragMouseDown } = useDragSideBar();
@@ -170,6 +175,9 @@ function _Home() {
           <div className={styles["sidebar-title"]}>Leogun Chat</div>
           <div className={styles["sidebar-sub-title"]}>
             你的私人秘书~
+          </div>
+          <div className={styles["sidebar-sub-title"]} style="coler: red">
+            {authorizedText}
           </div>
           <div className={styles["sidebar-logo"]}>
             <ChatGptIcon />
