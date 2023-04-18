@@ -316,6 +316,23 @@ export function Settings(props: { closeSettings: () => void }) {
           ) : (
               <></>
           )}
+          {enabledAccessControl && accessStore.accessCode === 'useSelfToken' ? (
+              <SettingItem
+                  title={Locale.Settings.Token.Title}
+                  subTitle={Locale.Settings.Token.SubTitle}
+              >
+                <PasswordInput
+                    value={accessStore.token}
+                    type="text"
+                    placeholder={Locale.Settings.Token.Placeholder}
+                    onChange={(e) => {
+                      accessStore.updateToken(e.currentTarget.value);
+                    }}
+                />
+              </SettingItem>
+          ) : (
+              <></>
+          )}
           <SettingItem title={Locale.Settings.Avatar}>
             <Popover
               onClose={() => setShowEmojiPicker(false)}
