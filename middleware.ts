@@ -18,7 +18,7 @@ async function verifyJwtToken(jwtToken: string): Promise<jose.JWS.VerificationRe
     });
 
     // 校验JWT Token
-    return jose.JWS.createVerify(key)
+    return await jose.JWS.createVerify(key)
         .verify(jwtToken);
 }
 
