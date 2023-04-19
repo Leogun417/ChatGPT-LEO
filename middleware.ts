@@ -9,7 +9,7 @@ export const config = {
 
 const serverConfig = getServerSideConfig();
 
-async function verifyJwtToken(jwtToken: string): Promise<jose.JWS.VerificationResult> {
+async function verifyJwtToken(jwtToken: string): boolean {
     if (!jwtToken || jwtToken.trim().length === 0) {
         return false;
     }
