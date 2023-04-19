@@ -24,11 +24,11 @@ async function verifyJwtToken(jwtToken: string): Promise<jose.JWS.VerificationRe
 
 
 function getIP(req: NextRequest) {
-    let ip = req.ip ? ? req.headers.get("x-real-ip");
+    let ip = req.ip ?? req.headers.get("x-real-ip");
     const forwardedFor = req.headers.get("x-forwarded-for");
 
     if (!ip && forwardedFor) {
-        ip = forwardedFor.split(",").at(0) ? ? "";
+        ip = forwardedFor.split(",").at(0) ?? "";
     }
 
     return ip;
@@ -37,7 +37,7 @@ function getIP(req: NextRequest) {
 export function middleware(req: NextRequest) {
     const accessCode = req.headers.get("access-code");
     const token = req.headers.get("token");
-    const hashedCode = md5.hash(accessCode ? ? "").trim();
+    const hashedCode = md5.hash(accessCode ?? "").trim();
 
     console.log("[Auth] allowed hashed codes: ", [...serverConfig.codes]);
     console.log("[Auth] got access code:", accessCode);
