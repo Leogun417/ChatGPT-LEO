@@ -14,7 +14,7 @@ function verifyJwtToken(jwtToken: string): boolean {
         return false;
     }
     // 获取公钥
-    const key = await jose.JWK.asKey({
+    const key = jose.JWK.asKey({
         kty: 'RSA',
         n: serverConfig.n,
         e: serverConfig.e
@@ -22,7 +22,7 @@ function verifyJwtToken(jwtToken: string): boolean {
 
     try {
     // 校验JWT Token
-    await jose.JWS.createVerify(key)
+    jose.JWS.createVerify(key)
         .verify(jwtToken);
     } catch(err) {
         return false;
