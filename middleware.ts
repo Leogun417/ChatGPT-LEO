@@ -27,8 +27,10 @@ export function middleware(req: NextRequest) {
   let jwtValid = true;
 
   try {
+    console.log('key-------------', accessCode)
     jwt.verify(accessCode ?? "", serverConfig.secret ?? "");
   } catch(err) {
+    console.log('errkey-------------', accessCode)
     jwtValid = false;
   }
 
