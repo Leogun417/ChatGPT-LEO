@@ -62,6 +62,13 @@ export function middleware(req: NextRequest) {
   console.log("[Auth] allowed hashed codes: ", [...serverConfig.codes]);
   console.log("[Auth] got access code:", accessCode);
   console.log("[Auth] hashed access code:", hashedCode);
+  console.log("[Auth] got secret:", serverConfig.secret);
+
+  console.log("serverConfig.needCode:", serverConfig.needCode);
+  console.log("serverConfig.codes.has(hashedCode):", serverConfig.codes.has(hashedCode));
+  console.log("!verifyKey(accessCode||'', serverConfig.secret||''):", !verifyKey(accessCode||'', serverConfig.secret||''));
+  console.log("!token:", !token);
+
   console.log("[User IP] ", getIP(req));
   console.log("[Time] ", new Date().toLocaleString());
 
