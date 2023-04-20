@@ -65,7 +65,7 @@ export function middleware(req: NextRequest) {
   console.log("[User IP] ", getIP(req));
   console.log("[Time] ", new Date().toLocaleString());
 
-  if (serverConfig.needCode && !serverConfig.codes.has(hashedCode) && verifyKey(accessCode, serverConfig.secret) && !token) {
+  if (serverConfig.needCode && !serverConfig.codes.has(hashedCode) && verifyKey(accessCode, serverConfig.secret||'') && !token) {
     return NextResponse.json(
       {
         error: true,
