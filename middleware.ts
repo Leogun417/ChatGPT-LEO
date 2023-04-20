@@ -11,6 +11,7 @@ function verifyKey(key:string, secret:string)  {
   try {
     // 使用密钥解密并解析出密钥相关信息
     const decryptedKey = CryptoJS.AES.decrypt(key, secret).toString(CryptoJS.enc.Utf8);
+    console.log('方法内decryptedKey', decryptedKey);
     const keyArray = decryptedKey.split(':');
     keyObj = {
       key: keyArray[0],
@@ -22,7 +23,7 @@ function verifyKey(key:string, secret:string)  {
   }
 
   const now = new Date().getTime();
-
+  console.log('方法内keyObj', keyObj);
   if (now > keyObj.expiration) {
     return false; // 密钥已过期
   }
@@ -31,6 +32,7 @@ function verifyKey(key:string, secret:string)  {
   // 计算验证值
   const expectedValue = CryptoJS.enc.Hex.parse(keyObj.key.toString())
       .toString();
+  console.log('方法内expectedValue', expectedValue);
   const actualValue = keyObj.key;
   if (expectedValue !== actualValue) {
     return false;
