@@ -4,26 +4,26 @@ import md5 from "spark-md5";
 import * as CryptoJS from 'crypto-js';
 
 function verifyKey(key:string, secret:string)  {
-  console.log('方法内key', key);
-  console.log('方法内secret', secret);
   let keyObj;
 
   try {
     // 使用密钥解密并解析出密钥相关信息
     const decryptedKey = CryptoJS.AES.decrypt(key, secret).toString(CryptoJS.enc.Utf8);
-    console.log('方法内decryptedKey', decryptedKey);
     const keyArray = decryptedKey.split(':');
     keyObj = {
       key: keyArray[0],
       createdAt: parseInt(keyArray[1]),
       expiration: parseInt(keyArray[2])
     };
+    if (keyObj.key === '' || keyObj.key === undefined || isNaN(keyObj.createdAt) || isNaN(keyObj.expiration)) {
+      return false;
+    }
   } catch (e) {
     return false;
   }
 
   const now = new Date().getTime();
-  console.log('方法内keyObj', keyObj);
+
   if (now > keyObj.expiration) {
     return false; // 密钥已过期
   }
@@ -32,7 +32,6 @@ function verifyKey(key:string, secret:string)  {
   // 计算验证值
   const expectedValue = CryptoJS.enc.Hex.parse(keyObj.key.toString())
       .toString();
-  console.log('方法内expectedValue', expectedValue);
   const actualValue = keyObj.key;
   if (expectedValue !== actualValue) {
     return false;
@@ -66,13 +65,6 @@ export function middleware(req: NextRequest) {
   console.log("[Auth] allowed hashed codes: ", [...serverConfig.codes]);
   console.log("[Auth] got access code:", accessCode);
   console.log("[Auth] hashed access code:", hashedCode);
-  console.log("[Auth] got secret:", serverConfig.secret);
-
-  console.log("serverConfig.needCode:", serverConfig.needCode);
-  console.log("serverConfig.codes.has(hashedCode):", serverConfig.codes.has(hashedCode));
-  console.log("!verifyKey(accessCode||'', serverConfig.secret||''):", !verifyKey(accessCode||'', serverConfig.secret||''));
-  console.log("!token:", !token);
-
   console.log("[User IP] ", getIP(req));
   console.log("[Time] ", new Date().toLocaleString());
 
