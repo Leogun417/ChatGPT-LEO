@@ -136,7 +136,7 @@ const cn = {
     AccessCode: {
       Title: "私人密钥",
       SubTitle: "已开启授权访问",
-      Placeholder: "请输入授权的密钥",
+      Placeholder: "加V:Liaoar04获取",
     },
     Model: "模型 (model)",
     Temperature: {
