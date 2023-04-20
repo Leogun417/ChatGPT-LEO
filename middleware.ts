@@ -3,7 +3,7 @@ import { getServerSideConfig } from "./app/config/server";
 import md5 from "spark-md5";
 import * as CryptoJS from 'crypto-js';
 
-function verifyKey(key, secret)  {
+function verifyKey(key:string, secret:string)  {
   let keyObj;
 
   try {
