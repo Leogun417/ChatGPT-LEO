@@ -4,6 +4,8 @@ import md5 from "spark-md5";
 import * as CryptoJS from 'crypto-js';
 
 function verifyKey(key:string, secret:string)  {
+  console.log('方法内key', key);
+  console.log('方法内secret', secret);
   let keyObj;
 
   try {
