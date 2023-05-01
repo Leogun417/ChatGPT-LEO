@@ -30,8 +30,7 @@ export default function TokenPage() {
         onChange={(e) => setInputValue(e.target.value)}
       />
       <button onClick={handleSubmit}>Submit</button>
-      {tokenValue && <p>Token Value: {tokenValue}</p>}{" "}
-      {/* 根据 tokenValue 是否有值来渲染展示 */}
+      {tokenValue && <p>Token Value: {tokenValue}</p>}
     </div>
   );
 }
