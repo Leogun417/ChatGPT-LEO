@@ -13,9 +13,9 @@ function verifyKey(key:string, secret:string)  {
     keyObj = {
       key: keyArray[0],
       createdAt: parseInt(keyArray[1]),
-      expiration: parseInt(keyArray[2])
+      expirationTime: parseInt(keyArray[2])
     };
-    if (keyObj.key === '' || keyObj.key === undefined || isNaN(keyObj.createdAt) || isNaN(keyObj.expiration)) {
+    if (keyObj.key === '' || keyObj.key === undefined || isNaN(keyObj.createdAt) || isNaN(keyObj.expirationTime)) {
       return false;
     }
   } catch (e) {
@@ -24,7 +24,7 @@ function verifyKey(key:string, secret:string)  {
 
   const now = new Date().getTime();
 
-  if (now > keyObj.expiration) {
+  if (now > keyObj.expirationTime) {
     return false; // 密钥已过期
   }
 
@@ -41,7 +41,7 @@ function verifyKey(key:string, secret:string)  {
 };
 
 export const config = {
-  matcher: ["/api/openai", "/api/chat-stream"],
+  matcher: ["/api/openai", "/api/chat-stream", "/api/gentoken"],
 };
 
 const serverConfig = getServerSideConfig();
@@ -67,6 +67,19 @@ export function middleware(req: NextRequest) {
   console.log("[Auth] hashed access code:", hashedCode);
   console.log("[User IP] ", getIP(req));
   console.log("[Time] ", new Date().toLocaleString());
+
+  if (req.nextUrl.pathname === "/api/gentoken" && !serverConfig.codes.has(hashedCode)) {
+    return NextResponse.json(
+        {
+          error: true,
+          needAccessCode: true,
+          msg: "非法操作！",
+        },
+        {
+          status: 401,
+        },
+    );
+  }
 
   if (serverConfig.needCode && !serverConfig.codes.has(hashedCode) && !verifyKey(accessCode||'', serverConfig.secret||'') && !token) {
     return NextResponse.json(

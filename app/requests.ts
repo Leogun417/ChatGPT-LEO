@@ -33,7 +33,7 @@ const makeRequestParam = (
   };
 };
 
-function getHeaders() {
+export function getHeaders() {
   const accessStore = useAccessStore.getState();
   let headers: Record<string, string> = {};
 
