@@ -13,7 +13,22 @@ export default function TokenPage() {
           headers: getHeaders(),
         },
       );
-      alert(response.data.token);
+      const tokenValue = response.data.token;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(tokenValue);
+        alert("Token copied to clipboard!");
+      } else {
+        // 如果浏览器不支持 Clipboard API，则使用 document.execCommand('copy') 方法
+        const tempInput = document.createElement("input");
+        tempInput.style.position = "fixed";
+        tempInput.style.opacity = "0";
+        tempInput.value = tokenValue;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Token copied to clipboard!");
+      }
     } catch (error) {
       console.error(error);
     }
