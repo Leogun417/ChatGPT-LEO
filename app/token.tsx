@@ -2,49 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getHeaders } from "./requests";
 
-const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
-
-const copyToClipboard = async (text) => {
-  try {
-    if (!text) return;
-    if (isMobile) {
-      const tempInput = document.createElement("input");
-      tempInput.style.position = "absolute";
-      tempInput.style.left = "-1000px";
-      tempInput.style.top = "-1000px";
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      const range = document.createRange();
-      range.selectNodeContents(tempInput);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-      tempInput.setSelectionRange(0, 99999); // 移动端必须手动选中文本
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-    } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      const tempInput = document.createElement("input");
-      tempInput.style.position = "fixed";
-      tempInput.style.opacity = "0";
-      tempInput.value = text;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-    }
-    alert("Text copied to clipboard!");
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export default function TokenPage() {
   const [inputValue, setInputValue] = useState("");
+  const [tokenValue, setTokenValue] = useState(""); // 新增
+
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
@@ -55,7 +16,7 @@ export default function TokenPage() {
         },
       );
       const tokenValue = response.data.token;
-      copyToClipboard(tokenValue);
+      setTokenValue(tokenValue); // 更新 tokenValue 的值
     } catch (error) {
       console.error(error);
     }
@@ -69,6 +30,8 @@ export default function TokenPage() {
         onChange={(e) => setInputValue(e.target.value)}
       />
       <button onClick={handleSubmit}>Submit</button>
+      {tokenValue && <p>Token Value: {tokenValue}</p>}{" "}
+      {/* 根据 tokenValue 是否有值来渲染展示 */}
     </div>
   );
 }
